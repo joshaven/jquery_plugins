@@ -353,6 +353,7 @@ function object(obj){
       } else if(input.tagName == 'SELECT'){
         // Select input: transform into Text input, then make QuickSelect.
         my_options.delay = my_options.delay || 10; // for selects, we know we're not doing ajax, so we might as well speed up
+        options.exactMatch = true; // force exactMatch on selects
 
         // Record the html stuff from the select
         var name = input.name,
