@@ -1,5 +1,5 @@
 // Credit to Anders Retterås for adding functionality preventing onblur event to fire on text input when clicking on scrollbars in MSIE / Opera.
-// Minified version created at http://jsutility.pjoneil.net/ by running Obfuscation with no options and then Compact.
+// Minified version created at http://jsutility.pjoneil.net/ by running Obfuscation with no options and then Compact.
 // Packed version created at http://jsutility.pjoneil.net/ by running Compress on the Minified version.
 
 function object(obj){
