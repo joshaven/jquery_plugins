@@ -6,230 +6,264 @@
   <script type="text/javascript" src="jquery-1.2.6.pack.js"></script>
   <script type='text/javascript' src='quicksilver.js'></script>
   <script type='text/javascript' src='jquery.quickselect.js'></script>
-  <link rel="stylesheet" type="text/css" href="jquery.quickselect.css" />
+  <link rel="stylesheet" type="text/css" href="jquery.quickselect.css"></link>
+  
+  <style type="text/css">
+    pre {background-color: #DDD; border: 1px dotted black}
+    div.section {border: dotted 2px gray; padding: 2px; background-color: #FFC; margin-bottom: 30px}
+    fieldset {border: 1px solid #006600}
+    fieldset legend {font-size: 1.5em; color: #006600;;}
+    .float_right {float: right}
+    .float_container:after {content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+  </style>
+
 </head>
 
 <body>
   <h1>jQuery : QuickSelect</h1>
   
-  <h1>Examples</h1>
-  <div style='border: dotted 2px gray; padding: 2px; background-color: #FFC; margin-bottom: 30px'>
+  <ul>
+    <li><a href="#example1">Examples</a>
+      <ul>
+        <li><a href="#example1">Example 1 - 10 closest matches from local data</a></li>
+        <li><a href="#example2">Example 2 - Update other fields &amp; retrieve data from URL</a></li>
+        <li><a href="#example3">Example 3 - Select converted into QuickSelect</a></li>
+        <li><a href="#example4">Example 4 - Another Select converted into QuickSelect</a></li>
+      </ul>
+    </li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+  <div class="section">
     <form onsubmit="return false;" action="">
-  <!-- Example 1: Local data-->
-      <h2>Show 10 closest matches from Local Data</h2>
-      <p>
-        QuickSelect input box with source data defined in javascript Array limited to 10 suggestions:<br />
-        City: <input type="text" id="ExampleOne_LocalData" value="" />
-      </p>
-<pre style='background-color: #DDD; border: 1px dotted black'>
-  <code>
-    &lt;input type="text" id="ExampleOne_LocalData" value="" /&gt;
-    
-    &lt;script&gt;
-    $('#ExampleOne_LocalData').quickselect({
-      maxItemsToShow:10,
-      data:["Aberdeen", "Ada", "Adamsville", ["Addyston", "Addyston", 'closed'], "Adelphi", "Adena", "Adrian", "Akron"]}) // truncated data...
-    &lt;/script&gt;
-  </code>
-</pre>
-
-
-
-  <!-- Example 2: Ajax Data  -->
-      <h2>Ajax Data</h2>
-      <p>
-        QuickSelect input box with data from url formatted as JSON ('zips_starting_with_49.json' in this case).<br />
-        Data from the first field will dictate the other fields data based upon the json provided.<br />
-        In an actual implementation, the data returned should correspond to what you've typed<br />
-        (the request adds a query-string "?q=&lt;what-you-typed&gt;").<br />
-        In this example, the json data is just a static file.<br />
-        
-        
-        <h3>Enter a zip beginning with 49___</h3>
+<!-- Example 1: Local data-->
+      <a name="example1" />
+      <fieldset>
+      <legend>Example 1: Show 10 closest matches from Local Data</legend>
+        <p>QuickSelect input box with source data defined in javascript Array limited to 10 suggestions.</p>
+        <h4>Type a letter or two:</h4>
+        <label>City:</label>
+        <input type="text" id="ExampleOne_city" value="" />
+        <pre>
+          <code>
+            &lt;label&gt;City:&lt;/label&gt;
+            &lt;input type="text" id="ExampleOne_city" value="" /&gt;
+          
+            &lt;script&gt;
+            $('#ExampleOne_city').quickselect({
+              maxItemsToShow:10,
+              autoSelectFirst:false,
+              data:["Aberdeen", "Ada", "Adamsville", "Addyston", "Adelphi", "Adena", "Adrian", "Akron",
+                    "Albany", "Alexandria", "Alger", "Alledonia", "Alliance", "Alpha", "Alvada",]}) // truncated data...
+            &lt;/script&gt;
+          </code>
+        </pre>
+      </fieldset>
+<!-- Example 2: Ajax Data & Update Additional Fields -->
+      <a name="example2" />
+      <fieldset>
+        <legend>Example 2: Update other fields &amp; retrieve data from URL</legend>
+        <p>
+          QuickSelect input box with data from url formatted as JSON ('zips_starting_with_49.json' in this case).<br />
+          Data from the first field will dictate the other fields data based upon the json provided.<br />
+          In an actual implementation, the data returned should correspond to what you've typed<br />
+          (the request adds a query-string "?q=&lt;what-you-typed&gt;").<br />
+          In this example, the json data is just a static file.<br />
+        </p>
+        <h4>Enter a zip beginning with 49___</h4>
         <label>Zip</label>
-        <input id="zip" type="text" />
-        <h3>Witness the glory</h3>
+        <input id="example2_zip" type="text" />
+        <h4>Witness the glory</h4>
         <label>City</label>
-        <input id='city' type="text" />
+        <input id='example2_city' type="text" />
         <label>State</label>
-        <input id="state" type="text" />
+        <input id="example2_state" type="text" />
         <script type="text/javascript">
-          $('#zip').quickselect({
+          $('#example2_zip').quickselect({
             ajax:'zips_starting_with_49.json',
-            match:'substring',
+            maxItemsToShow:10,
             autoSelectFirst:false,
             mustMatch:true,
-            additional_fields:[$('#city'), $('#state')],
+            additional_fields:[$('#example2_city'), $('#example2_state')],
             formatItem:function(data, index, total){return data[0]+", "+data[1]+" "+data[2]}
           });
         </script>
-        <pre style='background-color: #DDD; border: 1px dotted black'>
+        <pre>
           <code>
             &lt;label>Zip&lt;/label&gt;   &lt;input type="text" id="zip" /&gt;
             &lt;label>City&lt;/label&gt;  &lt;input type="text" id="city" /&gt;
             &lt;label>State&lt;/label&gt; &lt;input type="text" id="state" /&gt;
-            
+          
             &lt;script type="text/javascript"&gt;
-              $('#zip').quickselect({
+              $('#example2_zip').quickselect({
                 ajax:'zips_starting_with_49.json',    /* call to url with json formatted array of data */
                 match:'substring',
+                maxItemsToShow:10,
                 autoSelectFirst:false,
                 mustMatch:true,
-                additional_fields:[$('#city'), $('#state')],
+                additional_fields:[$('#example2_city'), $('#example2_state')],
                 formatItem:function(data, index, total){return data[0]+", "+data[1]+" "+data[2]}
               });
             &lt;/script&gt;
           </code>
         </pre>
-      </p>
-
-
-
-  <!-- Example 3 -->
-      <h2>Select converted into QuickSelect</h2>
-      <p>
-        select/options tags converted to text input coupled with hidden input:<br />
-        City: <select name="ExampleThree_OptionsData" id="ExampleThree_OptionsData">
-          <option value=''></option>
-          <option value='1'>Aberdeen</option>
-          <option value='2'>Ada</option>
-          <option value='3'>Adamsville</option>
-          <option value='4'>Addyston</option>
-          <option value='5'>Adelphi</option>
-          <option value='6'>Adena</option>
-          <option value='7'>Adrian</option>
-          <option value='8'>Akron</option>
-          <option value='9'>Albany</option>
-          <option value='10'>Alexandria</option>
-          <option value='11'>Alger</option>
-          <option value='12'>Alledonia</option>
-          <option value='13'>Alliance</option>
-          <option value='14'>Alpha</option>
-          <option value='15'>Alvada</option>
-          <option value='16'>Alvordton</option>
-          <option value='17'>Amanda</option>
-          <option value='18'>Amelia</option>
-          <option value='19'>Amesville</option>
-          <option value='20'>Amherst</option>
-          <option value='21'>Amlin</option>
-          <option value='22'>Amsden</option>
-          <option value='23'>Amsterdam</option>
-          <option value='24'>Andover</option>
-          <option value='25'>Anna</option>
-          <option value='26'>Ansonia</option>
-          <option value='27'>Antwerp</option>
-          <option value='28'>Apple Creek</option>
-          <option value='29'>Arcadia</option>
-          <option value='30'>Arcanum</option>
-          <option value='31'>Archbold</option>
-          <option value='32'>Arlington</option>
-          <option value='33'>Ashland</option>
-          <option value='34'>Ashley</option>
-          <option value='35'>Ashtabula</option>
-          <option value='36'>Ashville</option>
-          <option value='37'>Athens</option>
-          <option value='38'>Attica</option>
-          <option value='39'>Atwater</option>
-          <option value='40'>Augusta</option>
-          <option value='41'>Aurora</option>
-          <option value='42'>Austinburg</option>
-          <option value='43'>Ava</option>
-          <option value='44'>Avon</option>
+      </fieldset>
+<!-- Example 3 -->
+      <a name ="example3" />
+      <fieldset>
+        <legend>Example 3: Select converted into QuickSelect</legend>
+        <p>
+          select/options tags converted to text input coupled with hidden input:
+        </p>
+        <label>State:</label> 
+        <select id="ExampleThree_state">
+          <option value=""></option>
+          <option value="176">Alabama</option>
+          <option value="178">Alaska</option>
+          <option value="181">Arizona</option>
+          <option value="184">Arkansas</option>
+          <option value="187">California</option>
+          <option value="189">Colorado</option>
+          <option value="191">Connecticut</option>
+          <option value="194">Delaware</option>
+          <option value="198">Florida</option>
+          <option value="201">Georgia</option>
+          <option value="204">Hawaii</option>
+          <option value="207">Idaho</option>
+          <option value="209">Illinois</option>
+          <option value="211">Indiana</option>
+          <option value="213">Iowa</option>
+          <option value="215">Kansas</option>
+          <option value="217">Kentucky</option>
+          <option value="219">Louisiana</option>
+          <option value="221">Maine</option>
+          <option value="223">Maryland</option>
+          <option value="225">Massachusetts</option>
+          <option value="228">Michigan</option>
+          <option value="230">Minnesota</option>
+          <option value="232">Mississippi</option>
+          <option value="234">Missouri</option>
+          <option value="237">Montana</option>
+          <option value="240">Nebraska</option>
+          <option value="242">Nevada</option>
+          <option value="244">New Hampshire</option>
+          <option value="246">New Jersey</option>
+          <option value="250">New Mexico</option>
+          <option value="252">New York</option>
+          <option value="254">North Carolina</option>
+          <option value="256">North Dakota</option>
+          <option value="258">Ohio</option>
+          <option value="260">Oklahoma</option>
+          <option value="262">Oregon</option>
+          <option value="264">Pennsylvania</option>
+          <option value="266">Rhode Island</option>
+          <option value="268">South Carolina</option>
+          <option value="270">South Dakota</option>
+          <option value="274">Tennessee</option>
+          <option value="277">Texas</option>
+          <option value="279">Utah</option>
+          <option value="281">Vermont</option>
+          <option value="283">Virginia</option>
+          <option value="286">Washington</option>
+          <option value="289">West Virginia</option>
+          <option value="291">Wisconsin</option>
+          <option value="293">Wyoming</option>
         </select>
-				<br />
-				Note that for a converted select group, some option defaults change:<br />
-				{mustMatch : true, autoSelectFirst : true}<br />
-				Also, some options are effectively disabled:<br />
-				ajax, data, additional_fields.
-      </p>
-<pre style='background-color: #DDD; border: 1px dotted black'>
-  <code>
-    &lt;select name="ExampleThree_OptionsData" id="ExampleThree_OptionsData"&gt;
-      &lt;!-- Include an empty option at the top to leave the field blank.
-           Field will automatically be prepopulated with whatever option is marked selected, if there is one. --&gt;
-      &lt;option value='' &gt;&lt;/option&gt;
-      &lt;option value='1'&gt;Aberdeen&lt;/option&gt;
-      &lt;option value='2'&gt;Ada&lt;/option&gt;
-      &lt;option value='3'&gt;Adamsville&lt;/option&gt;
-      &lt;option value='4'&gt;Addyston&lt;/option&gt;
-      &lt;option value='5'&gt;Adelphi&lt;/option&gt;
-      &lt;!-- Options truncated ... --&gt;
-    &lt;select&gt;
+        <script type="text/javascript">$("#ExampleThree_state").quickselect();</script>
+        <p>
+          Note that for a converted select group, some option defaults change:<br />
+          {exactMatch : true, autoSelectFirst : true}<br />
+          Also, some options are effectively disabled:<br />
+          ajax, data, additional_fields.
+        </p>
+        <pre>
+          <code>
+            &lt;select id="ExampleThree_state"&gt;
+              &lt;option value=''&gt;&lt;/option&gt;
+              &lt;option value='1'&gt;Alabama&lt;/option&gt;
+              &lt;option value='2'&gt;Alaska&lt;/option&gt;
+              &lt;option value='3'&gt;Arizona&lt;/option&gt;
+              &lt;option value='4'&gt;Arkansas&lt;/option&gt;
+              &lt;option value='5'&gt;California&lt;/option&gt;
+              &lt;!-- Options truncated ... --&gt;
+            &lt;select&gt;
+          
+            &lt;script type="text/javascript"&gt;$("#state_select").quickselect();&lt;/script&gt;
+          </code>
+        </pre>
+      </fieldset>
+<!-- Example 4 -->
+      <a name="example4" />
+      <fieldset>
+        <legend>Another converted Select...</legend>
 
-    &lt;script&gt;
-      $("#ExampleThree_OptionsData").quickselect();
-    &lt;/script&gt;
-  </code>
-</pre>
+        
+        <p id='example_4'>
+          select/options tags converted to text input coupled with hidden input:<br />
+          City:
+          <select id='example_4_select' name='example_4'>
+            <option></option>
+            <option value="1">Another Title Insurance Agency</option>
+            <option value="2">Another Title Services, LLC</option>
+            <option value="3">Another Title Agency of Ohio</option>
+            <option value="4">Another Title Network, LLC</option>
+            <option value="5">Big Title Agency, LLC</option>
+          </select>
+        </p>
+        <script type='text/javascript'>$('p#example_4 select').quickselect({mustMatch:true});</script>
+      </fieldset>
+      
     </form>
   </div>
 
-	<hr />
+  <div class="section">
+    <a name="resources" />
+    <h2>Resources</h2>
+    <fieldset>
+      <legend>Plugin Files</legend>
+      <p>
+        The following files are required for quickselect.  Download these to your javascript &amp; css folders and include 
+        them on any pages in which you use quickselect
+      </p>
+      <ol>
+        <li>
+          <a href="jquery-1.2.6.pack.js">jquery-1.2.6.pack.js</a> (Packed jQuery... only needed if you are not already including jQuery)
+        </li>
+        <li>
+          <a href="jquery.quickselect.pack.js">jquery.quickselect.pack.js</a> (Packed javascript) or
+          <a href="jquery.quickselect.js">jquery.quickselect.js</a> (Unpacked javascript)
+        </li>
+        <li>
+          <a href="jquery.quickselect.css">jquery.quickselect.css</a> (Supporting CSS)
+        </li>
+        <li>
+          <a href="quicksilver.js">quicksilver.js</a> (**Optional: Inclusion will automatically enable quicksilver like similarity matching.)
+        </li>
+      </ol>
+      
+      <pre>
+        <code>
+          &lt;script type="text/javascript" src="jquery-1.2.6.pack.js">&gt;&lt;/script&gt;
+          &lt;script type='text/javascript' src="quicksilver.js"&gt;&lt;/script&gt;
+          &lt;script type='text/javascript' src="jquery.quickselect.pack.js"&gt;&lt;/script&gt;
+          &lt;link rel="stylesheet" type="text/css" href="jquery.quickselect.css"&gt;&lt;/link&gt;
+        </code>
+      </pre>
+      
+    </fieldset>
+  </div>
 
-  <!-- Example 4 -->
-  <h2>Another converted Select...</h2>
-  <p id='example_4'>
-    select/options tags converted to text input coupled with hidden input:<br />
-    City:
-    <select id='example_4_select' name='example_4'>
-      <option></option>
-      <option value="1">Cornerstone Title Insurance Agency</option>
-      <option value="2">Cornerstone Title Services, LLC</option>
-      <option value="3">Cornerstone Title Services OH</option>
-      <option value="4">National TitleNet, LLC</option>
-      <option value="5">Title Pro Agency LLC</option>
-    </select>
-  </p>
-  <script type='text/javascript'>$('p#example_4 select').quickselect({mustMatch:true});</script>
-
-
-  <h3>Plugin Files</h3>
-  <ol>
-    <li>
-      <a href="jquery.quickselect.js">jquery.quickselect.js</a> (Unpacked javascript) or
-      <br />
-      <a href="jquery.quickselect.pack.js">jquery.quickselect.pack.js</a> (Packed javascript)
-    </li>
-    <li>
-      <a href="jquery.quickselect.css">jquery.quickselect.css</a> (Supporting CSS)
-    </li>
-    <li>
-      <a href="quicksilver.js">quicksilver.js</a> (**Optional: Inclusion will enable quicksilver like similarity matching.)
-    </li>
-  </ol>
-  <h3>Dependencies</h3>
-  <ol><li>jQuery >= 1.2.6 (Others are Untested)</li></ol>
-  <h3>Options</h3>
-  <ul>
-    <li><b>ajax:</b> if you want to load data via ajax, include a url. The query text will be appended as ?q=$value.</li>
-    <li><b>data:</b> include data here if you aren’t using ajax.</li>
-    <li><b>minChars:</b> the minimum number of characters before triggering the drop-down (and ajax, if applicable).</li>
-    <li><b>delay:</b> milliseconds after typing that the results are re-evaluated. Make this longer if your ajax is bogging down.</li>
-    <li><b>matchCase:</b> specify that the drop-down should be case-sensitive.</li>
-    <li><b>match:</b> ‘substring’ for exact match-as-you-type, ‘quicksilver’ for similarity matching. Auto-detects whether quicksilver.js is included and active, and defaults to quicksilver mode if it can.</li>
-    <li><b>matchContains:</b> use with ‘substring’ only, means that what you type can match anywhere in the choice item, not just the beginning.</li>
-    <li><b>mustMatch:</b> if you’re not using any auto-select option, use this if you absolutely need the typed value to end up matching one of the list items in the end. If something is typed but no match is found, the text field and all fields specified in additional_fields instantly get blank values.</li>
-    <li><b>extraParams:</b> extra parameters for the ajax url.</li>
-    <li><b>autoSelectFirst:</b> keep the first item selected as you type, and tab or enter will automatically fill in the rest from the top item.</li>
-    <li><b>selectSingleMatch:</b> use this if NOT using autoSelectFirst, to make the control automatically select the top item when there is only one matched item left.</li>
-    <li><b>maxItemsToShow:</b> only show up to x number of items.</li>
-    <li><b>additional_fields:</b> (a jquery object with one or more elements) more fields to update with the extra data. Not honored when converting a select/option group to a quickselect control. For example, you may want to provide quickselect on a zipcode field, but when selected, update the city and state field automatically with the results.</li>
-    <li><b>autoFill:</b> use this if you want the text input to automatically try to finish what you’re typing as you type, based on the top entry. This only works well if your settings make the top listing exactly match what you’re typing.</li>
-    <li><b>width:</b> set the width of the drop-down list.</li>
-		<li><b>formatItem:</b> assign a function to use for formatting the list items. The function is called with arguments: data, index, total. See example #2.
-    <li><b>inputClass:</b> css class for styling the text input</li>
-    <li><b>loadingClass:</b> an extra css class for styling the text input while loading</li>
-    <li><b>resultsClass:</b> css class for styling the drop-down list</li>
-    <li><b>selectedClass:</b> css class for styling the currently-selected item in the drop-down list</li>
-  </ul>
+  <div class="float_container">
+    <a href="http://validator.w3.org/check?uri=referer" class="float_right">
+      <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
+    </a>
+  </div>
 
   <script type="text/javascript">
-  $(function(){
-    $('#ExampleOne_LocalData').quickselect({
+    $('#ExampleOne_city').quickselect({
       maxItemsToShow:10,
       autoSelectFirst:false,
       data:[
-        "Aberdeen", "Ada", "Adamsville", ["Addyston", 'Addyston', 'closed'], "Adelphi", "Adena", "Adrian", "Akron",
+        "Aberdeen", "Ada", "Adamsville", "Addyston", "Adelphi", "Adena", "Adrian", "Akron",
         "Albany", "Alexandria", "Alger", "Alledonia", "Alliance", "Alpha", "Alvada",
         "Alvordton", "Amanda", "Amelia", "Amesville", "Amherst", "Amlin", "Amsden",
         "Amsterdam", "Andover", "Anna", "Ansonia", "Antwerp", "Apple Creek", "Arcadia",
@@ -431,21 +465,6 @@
         "Yorkshire", "Yorkville", "Youngstown", "Zaleski", "Zanesfield", "Zanesville",
         "Zoar"]
     });
-
-    $('#ExampleTwo_AjaxData').quickselect({
-      ajax:'ask.json',
-      match:'substring',
-      minChars:2,
-      delay:1000,
-      width:200,
-      autoSelectFirst:false,
-			mustMatch:true,
-      additional_fields:$('#other_thing_field'),
-      formatItem:function(data, index, total){return data[0]+" (extra: "+data[1]+")"}
-    });
-
-    $("#ExampleThree_OptionsData").quickselect({autoFill:true, matchMethod:'startsWith'});
-  });
   </script>
 </body>
 </html>
