@@ -82,7 +82,7 @@
             ajax:'zips_starting_with_49.json',
             maxVisibleItems:10,
             autoSelectFirst:false,
-            mustMatch:true,
+            exactMatch:true,
             additional_fields:[$('#example2_city'), $('#example2_state')],
             formatItem:function(data, index, total){return data[0]+", "+data[1]+" "+data[2]}
           });
@@ -98,7 +98,7 @@
                 ajax:'zips_starting_with_49.json',
                 maxVisibleItems:10,
                 autoSelectFirst:false,
-                mustMatch:true,
+                exactMatch:true,
                 additional_fields:[$('#example2_city'), $('#example2_state')],
                 formatItem:function(data, index, total){return data[0]+", "+data[1]+" "+data[2]}
               });
@@ -208,7 +208,7 @@
             <option value="5">Big Title Agency, LLC</option>
           </select>
         </p>
-        <script type='text/javascript'>$('p#example_4 select').quickselect({mustMatch:true});</script>
+        <script type='text/javascript'>$('p#example_4 select').quickselect({exactMatch:true});</script>
       </fieldset>
       
     </form>
