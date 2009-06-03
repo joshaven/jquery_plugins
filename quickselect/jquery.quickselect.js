@@ -105,7 +105,7 @@ function object(obj){
           $.getJSON(url, callback);
         }
       };
-       var moveSelect = function(step_or_li){
+      var moveSelect = function(step_or_li){
         var lis = $('li', results_list);
         if(!lis){return;}
 
