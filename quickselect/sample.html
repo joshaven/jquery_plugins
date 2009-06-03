@@ -50,7 +50,7 @@
           
             &lt;script&gt;
             $('#ExampleOne_city').quickselect({
-              maxItemsToShow:10,
+              maxVisibleItems:10,
               autoSelectFirst:false,
               data:["Aberdeen", "Ada", "Adamsville", "Addyston", "Adelphi", "Adena", "Adrian", "Akron",
                     "Albany", "Alexandria", "Alger", "Alledonia", "Alliance", "Alpha", "Alvada",]}) // truncated data...
@@ -80,7 +80,7 @@
         <script type="text/javascript">
           $('#example2_zip').quickselect({
             ajax:'zips_starting_with_49.json',
-            maxItemsToShow:10,
+            maxVisibleItems:10,
             autoSelectFirst:false,
             mustMatch:true,
             additional_fields:[$('#example2_city'), $('#example2_state')],
@@ -96,7 +96,7 @@
             &lt;script type="text/javascript"&gt;
               $('#example2_zip').quickselect({
                 ajax:'zips_starting_with_49.json',
-                maxItemsToShow:10,
+                maxVisibleItems:10,
                 autoSelectFirst:false,
                 mustMatch:true,
                 additional_fields:[$('#example2_city'), $('#example2_state')],
@@ -259,7 +259,7 @@
 
   <script type="text/javascript">
     $('#ExampleOne_city').quickselect({
-      maxItemsToShow:10,
+      maxVisibleItems:10,
       autoSelectFirst:false,
       data:[
         "Aberdeen", "Ada", "Adamsville", "Addyston", "Adelphi", "Adena", "Adrian", "Akron",
