@@ -15,6 +15,9 @@
     fieldset legend {font-size: 1.5em; color: #006600;;}
     .float_right {float: right}
     .float_container:after {content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+    .red  {color: red; background-color: #555;}
+    .white{color: white; background-color: #555;}
+    .blue {color: blue; background-color: #555;}
   </style>
 
 </head>
@@ -28,7 +31,7 @@
         <li><a href="#example1">Example 1 - 10 closest matches from local data</a></li>
         <li><a href="#example2">Example 2 - Update other fields &amp; retrieve data from URL</a></li>
         <li><a href="#example3">Example 3 - Select converted into QuickSelect</a></li>
-        <li><a href="#example4">Example 4 - Another Select converted into QuickSelect</a></li>
+        <li><a href="#example4">Example 4 - Converted Select with Options &amp; Styled Results</a></li>
       </ul>
     </li>
     <li><a href="#resources">Resources</a></li>
@@ -195,22 +198,87 @@
 <!-- Example 4 -->
       <a name="example4" />
       <fieldset>
-        <legend>Another converted Select...</legend>
-
-        
-        <p id='example_4'>
-          select/options tags converted to text input coupled with hidden input:<br />
-          City:
-          <select id='example_4_select' name='example_4'>
-            <option></option>
-            <option value="1">Another Title Insurance Agency</option>
-            <option value="2">Another Title Services, LLC</option>
-            <option value="3">Another Title Agency of Ohio</option>
-            <option value="4">Another Title Network, LLC</option>
-            <option value="5">Big Title Agency, LLC</option>
-          </select>
+        <legend>Converted Select with Options &amp; Styled Results</legend>
+        <p>
+          select/options tags converted to text input and results are styled Red White & Blue (with a dark background to show off white).
+          The coloring is done based upon the class supplied on the option.
         </p>
-        <script type='text/javascript'>$('p#example_4 select').quickselect({exactMatch:true});</script>
+        <label>State</label>
+        <select id="ExampleFour_state">
+          <option value=""></option>
+          <option value="176" class="red  ">Alabama</option>
+          <option value="178" class="white">Alaska</option>
+          <option value="181" class="blue ">Arizona</option>
+          <option value="184" class="red  ">Arkansas</option>
+          <option value="187" class="white">California</option>
+          <option value="189" class="blue ">Colorado</option>
+          <option value="191" class="red  ">Connecticut</option>
+          <option value="194" class="white">Delaware</option>
+          <option value="198" class="blue ">Florida</option>
+          <option value="201" class="red  ">Georgia</option>
+          <option value="204" class="white">Hawaii</option>
+          <option value="207" class="blue ">Idaho</option>
+          <option value="209" class="red  ">Illinois</option>
+          <option value="211" class="white">Indiana</option>
+          <option value="213" class="blue ">Iowa</option>
+          <option value="215" class="red  ">Kansas</option>
+          <option value="217" class="white">Kentucky</option>
+          <option value="219" class="blue ">Louisiana</option>
+          <option value="221" class="red  ">Maine</option>
+          <option value="223" class="white">Maryland</option>
+          <option value="225" class="blue ">Massachusetts</option>
+          <option value="228" class="red  ">Michigan</option>
+          <option value="230" class="white">Minnesota</option>
+          <option value="232" class="blue ">Mississippi</option>
+          <option value="234" class="red  ">Missouri</option>
+          <option value="237" class="white">Montana</option>
+          <option value="240" class="blue ">Nebraska</option>
+          <option value="242" class="red  ">Nevada</option>
+          <option value="244" class="white">New Hampshire</option>
+          <option value="246" class="blue ">New Jersey</option>
+          <option value="250" class="red  ">New Mexico</option>
+          <option value="252" class="white">New York</option>
+          <option value="254" class="blue ">North Carolina</option>
+          <option value="256" class="red  ">North Dakota</option>
+          <option value="258" class="white">Ohio</option>
+          <option value="260" class="blue ">Oklahoma</option>
+          <option value="262" class="red  ">Oregon</option>
+          <option value="264" class="white">Pennsylvania</option>
+          <option value="266" class="blue ">Rhode Island</option>
+          <option value="268" class="red  ">South Carolina</option>
+          <option value="270" class="white">South Dakota</option>
+          <option value="274" class="blue ">Tennessee</option>
+          <option value="277" class="red  ">Texas</option>
+          <option value="279" class="white">Utah</option>
+          <option value="281" class="blue ">Vermont</option>
+          <option value="283" class="red  ">Virginia</option>
+          <option value="286" class="white">Washington</option>
+          <option value="289" class="blue ">West Virginia</option>
+          <option value="291" class="red  ">Wisconsin</option>
+          <option value="293" class="white">Wyoming</option>
+        </select>
+        <script type='text/javascript'>
+          $('#ExampleFour_state').quickselect();
+        </script>
+        <pre>
+          <code>
+            &lt;select id="ExampleThree_state"&gt;
+              &lt;option value=''  class="red"&gt;&lt;/option&gt;
+              &lt;option value='1' class="white"&gt;Alabama&lt;/option&gt;
+              &lt;option value='2' class="blue"&gt;Alaska&lt;/option&gt;
+              &lt;option value='3' class="red"&gt;Arizona&lt;/option&gt;
+              &lt;option value='4' class="white"&gt;Arkansas&lt;/option&gt;
+              &lt;option value='5' class="blue"&gt;California&lt;/option&gt;
+              &lt;!-- Options truncated ... --&gt;
+            &lt;select&gt;
+          
+            &lt;script type="text/javascript"&gt;
+              $('#ExampleFour_state').quickselect();
+            &lt;/script&gt;
+          </code>
+        </pre>
+        
+        
       </fieldset>
       
     </form>
@@ -469,3 +537,4 @@
   </script>
 </body>
 </html>
+d
