@@ -148,31 +148,36 @@ function object(obj){
         if(results_mask.is(":visible")){results_mask.hide();}
       };
       var selectItem = function(li, from_hide_now_function){
+        li=$(li)
         if(!li){
           li = document.createElement("li");
-          li.item = '';
+          li=$(li)
+          li.data('item', '');
         }
-        var label = getLabel(li.item),
-            values = getValues(li.item);
+        var label = (li.data('item') ? (li.data('item')['label'] ? li.data('item')['label'] : li.data('item')[0]) : ''),
+            values = (li.data('item') ? (li.data('item')['values'] ? li.data('item')['values'] : li.data('item') || '') : '');
         $input_element.lastSelected = label;
         $input_element.val(label); // Set the visible value
         previous_value = label;
         results_list.empty(); // clear the results list
+        // console.log(values);
         $(options.additional_fields).each(function(i,input){$(input).val(values[i+1]);}); // set the additional fields' values
         if(!from_hide_now_function){hideResultsNow();} // hide the results when something is selected
         if(options.onItemSelect){setTimeout(function(){ options.onItemSelect(li); }, 1);} // run the user callback, if set
         return true;
       };
       var selectCurrent = function(){
+
         var li = $("li."+options.selectedClass, results_list).get(0);
         if(li){
           return selectItem(li);
         } else {
           // No current selection - blank the fields if options.exactMatch and current value isn't valid.
           if(options.exactMatch){
-            $input_element.val('');
-            $(options.additional_fields).each(function(i,input){$(input).val('');});
-          }
+            if(!$input_element.val() == previous_value){
+              $input_element.val('');
+              $(options.additional_fields).each(function(i,input){$(input).val('');});}
+            }
           return false;
         }
       };
@@ -195,20 +200,19 @@ function object(obj){
         // Add each item:
         for(var i=0; i<total_count; i++){
           var item = items[i],
-              li = $('<li />').appendTo(ul);
-              // li = document.createElement("li");
+              li = document.createElement("li");
           li = $(li);
+          // store item associtive array in data attribute of li
+          li.data('item', item);
           results_list.append(li);
 
           li.text(options.formatItem ? options.formatItem(item, i, total_count) : getLabel(item));
 
-          // Set the class name, if specified
-          for(var j in item.attributes){ li.attr(j, item.attributes[j]); }
+          // Set preserved attributes
+          for(var j in item.attributes){ $(li).attr(j, item.attributes[j]); }
           
-          // Save the extra values (if any) to the li. (ie: preserve extra data from json requests)
-          li[0].item = item;
-
-          // ul.appendChild(li);
+          // insert list item
+          $(ul).append(li);
           li.hover(hf, bf).click(cf);
         }
 
@@ -267,7 +271,9 @@ function object(obj){
       
     // Set up the interface events
       // Mark that actual item was clicked if clicked item was NOT a DIV, so the focus doesn't leave the items.
-      results_list.mousedown(function(e){clickedLI=e.srcElement.tagName!='DIV';});
+      
+      results_list.mousedown(function(e){ if(e.srcElement){clickedLI=e.srcElement.tagName!='DIV';} });
+
       $input_element.keydown(function(e){
         last_keyCode = e.keyCode;
         switch(e.keyCode){
@@ -377,16 +383,13 @@ function object(obj){
             if(!/^(disabled|label|selected|value)$/.test(this.nodeName)){attrs[this.nodeName]=this.nodeValue;}
           }); 
           
-//// I expect that the valuses don't need to be doubled or even an array ////
-//// className should be replaced with an attributes associative array ////
-          
           my_options.data.push({label : $(option).text(), values : [option.value, option.value], attributes:attrs});
         });
 
         // Create the text input and hidden input
         // var text_input = $("<input type='text' class='"+my_attributes['class']+"' id='"+my_attributes['id']+"_quickselect' autocomplete='off' accesskey='"+my_attributes['accesskey']+"' tabindex='"+my_attributes['tabindex']+"' />");
         var text_input = $("<input type='text' />");
-        var hidden_input = $("<input type='hidden' id='"+my_attributes['id']+"' name='"+my_attributes['name']+"' />");
+        var hidden_input = $("<input type='text' id='"+my_attributes['id']+"' name='"+my_attributes['name']+"' />");
         // Set pre-selected value as default value
         
         // Set the preserved attributes & Append id with _quickselect to make unique
