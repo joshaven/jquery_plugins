@@ -46,6 +46,14 @@ function object(obj){
       var getLabel = function(item){
         return item.label || (typeof(item)==='string' ? item : item[0]) || ''; // hash:item.label; string:item; array:item[0]
       };
+      var labelFromElData = function(el){
+        el=$(el);
+        if(typeof(el.data('item'))==='string') {
+          return el.data('item');
+        }else{
+          return el.data('item') ? (el.data('item')['label'] ? el.data('item')['label'] : el.data('item')[0]) : '';
+        }
+      }
       var getValues = function(item){
         return item.values || (item.value ? [item.value] : (typeof(item)==='string' ? [item] : item)) || []; // hash:item.values || item.value; string:item; array:item[1..end]
       };
@@ -154,20 +162,18 @@ function object(obj){
           li=$(li)
           li.data('item', '');
         }
-        var label = (li.data('item') ? (li.data('item')['label'] ? li.data('item')['label'] : li.data('item')[0]) : ''),
+        var label = labelFromElData(li),
             values = (li.data('item') ? (li.data('item')['values'] ? li.data('item')['values'] : li.data('item') || '') : '');
         $input_element.lastSelected = label;
         $input_element.val(label); // Set the visible value
         previous_value = label;
         results_list.empty(); // clear the results list
-        // console.log(values);
         $(options.additional_fields).each(function(i,input){$(input).val(values[i+1]);}); // set the additional fields' values
         if(!from_hide_now_function){hideResultsNow();} // hide the results when something is selected
         if(options.onItemSelect){setTimeout(function(){ options.onItemSelect(li); }, 1);} // run the user callback, if set
         return true;
       };
       var selectCurrent = function(){
-
         var li = $("li."+options.selectedClass, results_list).get(0);
         if(li){
           return selectItem(li);
@@ -211,7 +217,7 @@ function object(obj){
           // Set preserved attributes
           for(var j in item.attributes){ $(li).attr(j, item.attributes[j]); }
           
-          // insert list item
+          // insert list item & set click event
           $(ul).append(li);
           li.hover(hf, bf).click(cf);
         }
@@ -389,7 +395,7 @@ function object(obj){
         // Create the text input and hidden input
         // var text_input = $("<input type='text' class='"+my_attributes['class']+"' id='"+my_attributes['id']+"_quickselect' autocomplete='off' accesskey='"+my_attributes['accesskey']+"' tabindex='"+my_attributes['tabindex']+"' />");
         var text_input = $("<input type='text' />");
-        var hidden_input = $("<input type='text' id='"+my_attributes['id']+"' name='"+my_attributes['name']+"' />");
+        var hidden_input = $("<input type='hidden' id='"+my_attributes['id']+"' name='"+my_attributes['name']+"' />");
         // Set pre-selected value as default value
         
         // Set the preserved attributes & Append id with _quickselect to make unique
