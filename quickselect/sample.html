@@ -45,11 +45,11 @@
         <p>QuickSelect input box with source data defined in javascript Array limited to 10 suggestions.</p>
         <h4>Type a letter or two:</h4>
         <label>City:</label>
-        <input type="text" id="ExampleOne_city" value="" />
+        <input type="text" id="ExampleOne_city" name="ExampleOne_city" value="" />
         <pre>
           <code>
             &lt;label&gt;City:&lt;/label&gt;
-            &lt;input type="text" id="ExampleOne_city" value="" /&gt;
+            &lt;input type="text" id="ExampleOne_city" name="ExampleOne_city" value="" /&gt;
           
             &lt;script&gt;
             $('#ExampleOne_city').quickselect({
@@ -74,27 +74,28 @@
         </p>
         <h4>Enter a zip beginning with 49___</h4>
         <label>Zip</label>
-        <input id="example2_zip" type="text" />
+        <input id="example2_zip" name="example2_zip" type="text" size='7'/>
         <h4>Witness the glory</h4>
         <label>City</label>
-        <input id='example2_city' type="text" />
+        <input id="example2_city" name="example2_city" type="text" />
         <label>State</label>
-        <input id="example2_state" type="text" />
+        <input id="example2_state" name="example2_state" type="text" />
         <script type="text/javascript">
           $('#example2_zip').quickselect({
             ajax:'zips_starting_with_49.json',
             maxVisibleItems:10,
             autoSelectFirst:false,
             exactMatch:true,
+            width:'200px',
             additional_fields:[$('#example2_city'), $('#example2_state')],
             formatItem:function(data, index, total){return data[0]+", "+data[1]+" "+data[2]}
           });
         </script>
         <pre>
           <code>
-            &lt;label>Zip&lt;/label&gt;   &lt;input type="text" id="zip" /&gt;
-            &lt;label>City&lt;/label&gt;  &lt;input type="text" id="city" /&gt;
-            &lt;label>State&lt;/label&gt; &lt;input type="text" id="state" /&gt;
+            &lt;label>Zip&lt;/label&gt;   &lt;input type="text" id="example2_zip"   name="example2_zip"   size="7"/&gt;
+            &lt;label>City&lt;/label&gt;  &lt;input type="text" id="example2_city"  name="example2_city" /&gt;
+            &lt;label>State&lt;/label&gt; &lt;input type="text" id="example2_state" name="example2_state"/&gt;
           
             &lt;script type="text/javascript"&gt;
               $('#example2_zip').quickselect({
@@ -102,6 +103,7 @@
                 maxVisibleItems:10,
                 autoSelectFirst:false,
                 exactMatch:true,
+                width:'200px',
                 additional_fields:[$('#example2_city'), $('#example2_state')],
                 formatItem:function(data, index, total){return data[0]+", "+data[1]+" "+data[2]}
               });
@@ -117,7 +119,7 @@
           select/options tags converted to text input coupled with hidden input:
         </p>
         <label>State:</label> 
-        <select id="ExampleThree_state">
+        <select id="ExampleThree_state" name="ExampleThree_state">
           <option value=""></option>
           <option value="176">Alabama</option>
           <option value="178">Alaska</option>
@@ -179,7 +181,7 @@
         </p>
         <pre>
           <code>
-            &lt;select id="ExampleThree_state"&gt;
+            &lt;select id="ExampleThree_state" name="ExampleThree_state&gt;
               &lt;option value=''&gt;&lt;/option&gt;
               &lt;option value='1'&gt;Alabama&lt;/option&gt;
               &lt;option value='2'&gt;Alaska&lt;/option&gt;
@@ -200,11 +202,11 @@
       <fieldset>
         <legend>Converted Select with Options &amp; Styled Results</legend>
         <p>
-          select/options tags converted to text input and results are styled Red White & Blue (with a dark background to show off white).
+          select/options tags converted to text input and results are styled Red White &amp; Blue (with a dark background to show off white).
           The coloring is done based upon the class supplied on the option.
         </p>
         <label>State</label>
-        <select id="ExampleFour_state">
+        <select id="ExampleFour_state" name="ExampleFour_state">
           <option value=""></option>
           <option value="176" class="red  ">Alabama</option>
           <option value="178" class="white">Alaska</option>
