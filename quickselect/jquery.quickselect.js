@@ -171,7 +171,7 @@ function object(obj){
           // No current selection - blank the fields if options.exactMatch and current value isn't valid.
           if(options.exactMatch){
             $input_element.val('');
-            options.additional_fields.each(function(i,input){$(input).val('');});
+            $(options.additional_fields).each(function(i,input){$(input).val('');});
           }
           return false;
         }
@@ -195,16 +195,21 @@ function object(obj){
         // Add each item:
         for(var i=0; i<total_count; i++){
           var item = items[i],
-              li = document.createElement("li");
+              li = $('<li />').appendTo(ul);
+              // li = document.createElement("li");
+          li = $(li);
           results_list.append(li);
-          $(li).text(options.formatItem ? options.formatItem(item, i, total_count) : getLabel(item));
 
-          // Save the extra values (if any) to the li
-          li.item = item;
+          li.text(options.formatItem ? options.formatItem(item, i, total_count) : getLabel(item));
+
           // Set the class name, if specified
-          if(item.className){li.className = item.className;}
-          ul.appendChild(li);
-          $(li).hover(hf, bf).click(cf);
+          for(var j in item.attributes){ li.attr(j, item.attributes[j]); }
+          
+          // Save the extra values (if any) to the li. (ie: preserve extra data from json requests)
+          li[0].item = item;
+
+          // ul.appendChild(li);
+          li.hover(hf, bf).click(cf);
         }
 
         // Lastly, remove the loading class.
@@ -252,7 +257,7 @@ function object(obj){
           repopulate(q,show_results);
         } else { // if too short, hide the list.
           if(q.length === 0 && (options.onBlank ? options.onBlank() : true)){ // onBlank callback
-            options.additional_fields.each(function(i,input){input.value='';});
+            $(options.additional_fields).each(function(i,input){$(input).val('');});
           }
           $input_element.removeClass(options.loadingClass);
           results_list.hide();
@@ -356,24 +361,43 @@ function object(obj){
         options.exactMatch = true; // force exactMatch on selects
 
         // Record the html stuff from the select
-        var name = input.name,
-            id = input.id,
-            className = input.className,
-            accesskey = $(input).attr('accesskey'),
-            tabindex = $(input).attr('tabindex'),
-            selected_option = $("option:selected", input).get(0);
+        var my_attributes = new Object;
+        // backup of all element attributes except multiple and size
+        $(input.attributes).each(function(i){
+          if(!/^(multiple|size)$/.test(this.nodeName)){my_attributes[this.nodeName]=this.nodeValue;}
+        });
 
-        // Collect the data from the select/options, remove them and create an input box instead.
+        // Collect the data from the select/options.
+        var selected_option = $("option:selected", input).get(0);
         my_options.data = [];
         $('option', input).each(function(i,option){
-          my_options.data.push({label : $(option).text(), values : [option.value, option.value], className : option.className});
+          var attrs = new Object;
+          // backup of all elements attributes except: disabled, label, selected, value
+          $(option.attributes).each(function(i){ 
+            if(!/^(disabled|label|selected|value)$/.test(this.nodeName)){attrs[this.nodeName]=this.nodeValue;}
+          }); 
+          
+//// I expect that the valuses don't need to be doubled or even an array ////
+//// className should be replaced with an attributes associative array ////
+          
+          my_options.data.push({label : $(option).text(), values : [option.value, option.value], attributes:attrs});
         });
 
         // Create the text input and hidden input
-        var text_input = $("<input type='text' class='"+className+"' id='"+id+"_quickselect' autocomplete='off' accesskey='"+accesskey+"' tabindex='"+tabindex+"' />");
-        if(selected_option){text_input.val($(selected_option).text());}
-        var hidden_input = $("<input type='hidden' id='"+id+"' name='"+input.name+"' />");
-        if(selected_option){hidden_input.val(selected_option.value);}
+        // var text_input = $("<input type='text' class='"+my_attributes['class']+"' id='"+my_attributes['id']+"_quickselect' autocomplete='off' accesskey='"+my_attributes['accesskey']+"' tabindex='"+my_attributes['tabindex']+"' />");
+        var text_input = $("<input type='text' />");
+        var hidden_input = $("<input type='hidden' id='"+my_attributes['id']+"' name='"+my_attributes['name']+"' />");
+        // Set pre-selected value as default value
+        
+        // Set the preserved attributes & Append id with _quickselect to make unique
+        for(var attribute in my_attributes){ text_input.attr(attribute, my_attributes[attribute]); }
+        text_input.attr('id', text_input.attr('id') + '_quickselect');
+        
+        
+        if(selected_option){
+          hidden_input.val(selected_option.value);
+          text_input.val($(selected_option).text());
+        }
 
         // From a select, we need to work off two values, from the label and value of the select options.
         // Record the first (label) in the text input, the second (value) in the hidden input.
