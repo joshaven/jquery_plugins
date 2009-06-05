@@ -193,28 +193,29 @@ function object(obj){
         // If the field no longer has focus or if there are no matches, forget it.
         if(!hasFocus || items === null || items.length === 0){return hideResultsNow();}
         
-        var ul = document.createElement("ul"),
-            total_count = items.length,
+        var total_count = items.length,
         // hover functions
             hf = function(){ moveSelect(this); },
             bf = function(){},
             cf = function(e){ e.preventDefault(); e.stopPropagation(); selectItem(this); };
-        results_list.append(ul);
+        
         // limited results to a max number
         if(options.maxVisibleItems > 0 && options.maxVisibleItems < total_count){total_count = options.maxVisibleItems;}
 
 
-
-
-
+        // Create ul for results
+        results_list.append("<ul></ul>");
+        var ul = $('ul', results_list);
+        
         // Add each item:
         for(var i=0; i<total_count; i++){
+          // make li for ul in results
+          ul.append('<li></li>')
           var item = items[i],
-              li = document.createElement("li");
-          li = $(li);
+              li = $('li:last', ul)
           // store item associtive array in data attribute of li
           li.data('item', item);
-          results_list.append(li);
+          // results_list.append(li);
 
 
 
