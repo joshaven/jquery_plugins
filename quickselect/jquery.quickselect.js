@@ -203,6 +203,10 @@ function object(obj){
         // limited results to a max number
         if(options.maxVisibleItems > 0 && options.maxVisibleItems < total_count){total_count = options.maxVisibleItems;}
 
+
+
+
+
         // Add each item:
         for(var i=0; i<total_count; i++){
           var item = items[i],
@@ -212,7 +216,16 @@ function object(obj){
           li.data('item', item);
           results_list.append(li);
 
-          li.text(options.formatItem ? options.formatItem(item, i, total_count) : getLabel(item));
+
+
+
+          // li.text(options.formatItem ? options.formatItem(item, i, total_count) : getLabel(item));
+          // this line effects firefox and works but doesn't work with Opera and may not with IE
+          li.text(options.formatItem ? options.formatItem(li.data('item'), i, total_count) : labelFromElData(li));
+
+
+
+
 
           // Set preserved attributes
           for(var j in item.attributes){ $(li).attr(j, item.attributes[j]); }
