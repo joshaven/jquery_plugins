@@ -327,9 +327,7 @@ function object(obj){
             break;
           default:
             if(timeout){clearTimeout(timeout);}
-            console.log(options.delay);
             timeout = setTimeout(onChange, options.delay);
-            // timeout = setTimeout(onChange, 0);
             break;
         }
       }).focus(function(){
@@ -357,7 +355,6 @@ function object(obj){
     options = options || {};
     options.data          = (typeof(options.data) === "object" && options.data.constructor == Array) ? options.data : undefined;
     options.ajaxParams    = options.ajaxParams || {};
-    // options.delay         = options.delay || 400;
     if(!options.delay) {options.delay = (this.tagName == 'SELECT' ? 10 : 400)}
     options.minChars      = options.minChars || 1;
     options.cssFlavor     = options.cssFlavor || 'quickselect';
