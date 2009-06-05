@@ -355,7 +355,7 @@ function object(obj){
     options = options || {};
     options.data          = (typeof(options.data) === "object" && options.data.constructor == Array) ? options.data : undefined;
     options.ajaxParams    = options.ajaxParams || {};
-    if(!options.delay) {options.delay = (this.tagName == 'SELECT' ? 10 : 400)}
+    if(!options.delay) {options.delay = (options.ajax==undefined ? 10 : 400)}
     options.minChars      = options.minChars || 1;
     options.cssFlavor     = options.cssFlavor || 'quickselect';
     options.inputClass    = options.inputClass || options.cssFlavor+"_input";
@@ -398,7 +398,7 @@ function object(obj){
         my_options.data = [];
         $('option', input).each(function(i,option){
           var attrs = new Object;
-          // backup of all elements attributes except: disabled, label, selected, value
+          // backup of all elements attributess except: disabled, label, selected, value
           $(option.attributes).each(function(i){ 
             if(!/^(disabled|label|selected|value)$/.test(this.nodeName)){attrs[this.nodeName]=this.nodeValue;}
           }); 
