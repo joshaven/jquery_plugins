@@ -3,9 +3,9 @@
 // Packed version created at http://jsutility.pjoneil.net/ by running Compress on the Minified version.
 
 function object(obj){
-  var s = function(){};
-  s.prototype = obj;
-  return new s();
+  var S = function(){};
+  S.prototype = obj;
+  return new S();
 }
 
 (function($){
@@ -51,9 +51,9 @@ function object(obj){
         if(typeof(el.data('item'))==='string') {
           return el.data('item');
         }else{
-          return el.data('item') ? (el.data('item')['label'] ? el.data('item')['label'] : el.data('item')[0]) : '';
+          return(el.data('item') ? (el.data('item').label ? el.data('item').label : el.data('item')[0]) : '');
         }
-      }
+      };
       var getValues = function(item){
         return item.values || (item.value ? [item.value] : (typeof(item)==='string' ? [item] : item)) || []; // hash:item.values || item.value; string:item; array:item[1..end]
       };
@@ -156,15 +156,15 @@ function object(obj){
         if(results_mask.is(":visible")){results_mask.hide();}
       };
       var selectItem = function(li, from_hide_now_function){
-        li=$(li)
+        li=$(li);
         // I'm unsure why
         if(!li){
           li = document.createElement("li");
-          li=$(li)
+          li=$(li);
           li.data('item', '');
         }
         var label = labelFromElData(li),
-            values = (li.data('item') ? (li.data('item')['values'] ? li.data('item')['values'] : li.data('item') || '') : '');
+            values = (li.data('item') ? (li.data('item').values ? li.data('item').values : li.data('item') || '') : '');
         $input_element.lastSelected = label;
         $input_element.val(label); // Set the visible value
         previous_value = label;
@@ -211,23 +211,15 @@ function object(obj){
         // Add each item:
         for(var i=0; i<total_count; i++){
           // make li for ul in results
-          ul.append('<li></li>')
+          ul.append('<li></li>');
           var item = items[i],
-              li = $('li:last', ul)
+              li = $('li:last', ul);
           // store item associtive array in data attribute of li
           li.data('item', item);
           // results_list.append(li);
 
-
-
-
           // li.text(options.formatItem ? options.formatItem(item, i, total_count) : getLabel(item));
-          // this line effects firefox and works but doesn't work with Opera and may not with IE
-          li.text(options.formatItem ? options.formatItem(li.data('item'), i, total_count) : labelFromElData(li));
-
-
-
-
+          li.text(options.resultFormat ? options.resultFormat(li.data('item'), i, total_count) : labelFromElData(li));
 
           // Set preserved attributes
           for(var j in item.attributes){ $(li).attr(j, item.attributes[j]); }
@@ -355,7 +347,7 @@ function object(obj){
     options = options || {};
     options.data          = (typeof(options.data) === "object" && options.data.constructor == Array) ? options.data : undefined;
     options.ajaxParams    = options.ajaxParams || {};
-    if(!options.delay) {options.delay = (options.ajax==undefined ? 10 : 400)}
+    if(!options.delay) {options.delay = (options.ajax === undefined ? 10 : 400);}
     options.minChars      = options.minChars || 1;
     options.cssFlavor     = options.cssFlavor || 'quickselect';
     options.inputClass    = options.inputClass || options.cssFlavor+"_input";
@@ -387,7 +379,7 @@ function object(obj){
         options.exactMatch = true; // force exactMatch on selects
 
         // Record the html stuff from the select
-        var my_attributes = new Object;
+        var my_attributes = {};
         // backup of all element attributes except multiple and size
         $(input.attributes).each(function(i){
           if(!/^(multiple|size)$/.test(this.nodeName)){my_attributes[this.nodeName]=this.nodeValue;}
@@ -397,7 +389,7 @@ function object(obj){
         var selected_option = $("option:selected", input).get(0);
         my_options.data = [];
         $('option', input).each(function(i,option){
-          var attrs = new Object;
+          var attrs = {};
           // backup of all elements attributess except: disabled, label, selected, value
           $(option.attributes).each(function(i){ 
             if(!/^(disabled|label|selected|value)$/.test(this.nodeName)){attrs[this.nodeName]=this.nodeValue;}
@@ -407,9 +399,8 @@ function object(obj){
         });
 
         // Create the text input and hidden input
-        // var text_input = $("<input type='text' class='"+my_attributes['class']+"' id='"+my_attributes['id']+"_quickselect' autocomplete='off' accesskey='"+my_attributes['accesskey']+"' tabindex='"+my_attributes['tabindex']+"' />");
         var text_input = $("<input type='text' />");
-        var hidden_input = $("<input type='hidden' id='"+my_attributes['id']+"' name='"+my_attributes['name']+"' />");
+        var hidden_input = $("<input type='hidden' id='"+my_attributes.id+"' name='"+my_attributes.name+"' />");
         // Set pre-selected value as default value
         
         // Set the preserved attributes & Append id with _quickselect to make unique
