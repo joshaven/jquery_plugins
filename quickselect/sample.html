@@ -50,16 +50,16 @@
         <input type="text" id="ExampleOne_city" name="ExampleOne_city" value="" />
         <pre>
           <code>
-            &lt;label&gt;City:&lt;/label&gt;
-            &lt;input type="text" id="ExampleOne_city" name="ExampleOne_city" value="" /&gt;
-          
-            &lt;script&gt;
-            $('#ExampleOne_city').quickselect({
-              maxVisibleItems:10,
-              autoSelectFirst:false,
-              data:["Aberdeen", "Ada", "Adamsville", "Addyston", "Adelphi", "Adena", "Adrian", "Akron",
-                    "Albany", "Alexandria", "Alger", "Alledonia", "Alliance", "Alpha", "Alvada",]}) // truncated data...
-            &lt;/script&gt;
+  &lt;label&gt;City:&lt;/label&gt;
+  &lt;input type="text" id="ExampleOne_city" name="ExampleOne_city" value="" /&gt;
+
+  &lt;script&gt;
+  $('#ExampleOne_city').quickselect({
+    maxVisibleItems:10,
+    autoSelectFirst:false,
+    data:["Aberdeen", "Ada", "Adamsville", "Addyston", "Adelphi", "Adena", "Adrian", "Akron",
+          "Albany", "Alexandria", "Alger", "Alledonia", "Alliance", "Alpha", "Alvada",]}) // truncated data...
+  &lt;/script&gt;
           </code>
         </pre>
       </fieldset>
@@ -92,26 +92,26 @@
             exactMatch:true,
             width:'200px',
             additional_fields:[$('#example2_city'), $('#example2_state')],
-            formatItem:function(data, index, total){return data[0]+", "+data[1]+" "+data[2]}
+            // formatItem:function(data, index, total){return data[0]+", "+data[1]+" "+data[2]}
           });
         </script>
         <pre>
           <code>
-            &lt;label>Zip&lt;/label&gt;   &lt;input type="text" id="example2_zip"   name="example2_zip"   size="7"/&gt;
-            &lt;label>City&lt;/label&gt;  &lt;input type="text" id="example2_city"  name="example2_city" /&gt;
-            &lt;label>State&lt;/label&gt; &lt;input type="text" id="example2_state" name="example2_state"/&gt;
-          
-            &lt;script type="text/javascript"&gt;
-              $('#example2_zip').quickselect({
-                ajax:'zips_starting_with_49.json',
-                maxVisibleItems:10,
-                autoSelectFirst:false,
-                exactMatch:true,
-                width:'200px',
-                additional_fields:[$('#example2_city'), $('#example2_state')],
-                formatItem:function(data, index, total){return data[0]+", "+data[1]+" "+data[2]}
-              });
-            &lt;/script&gt;
+  &lt;label>Zip&lt;/label&gt;   &lt;input type="text" id="example2_zip"   name="example2_zip"   size="7"/&gt;
+  &lt;label>City&lt;/label&gt;  &lt;input type="text" id="example2_city"  name="example2_city" /&gt;
+  &lt;label>State&lt;/label&gt; &lt;input type="text" id="example2_state" name="example2_state"/&gt;
+
+  &lt;script type="text/javascript"&gt;
+    $('#example2_zip').quickselect({
+      ajax:'zips_starting_with_49.json',
+      maxVisibleItems:10,
+      autoSelectFirst:false,
+      exactMatch:true,
+      width:'200px',
+      additional_fields:[$('#example2_city'), $('#example2_state')],
+      formatItem:function(data, index, total){return data[0]+", "+data[1]+" "+data[2]}
+    });
+  &lt;/script&gt;
           </code>
         </pre>
       </fieldset>
@@ -121,10 +121,10 @@
       <fieldset id="example3_fieldset">
         <legend>Example 3: "States" Select converted into QuickSelect</legend>
         <p>
-          select/options tags converted to text input coupled with hidden input:
+          select/options tags converted to text input coupled with hidden input... the value will be alerted to you when you leave this field.
         </p>
         <label>State:</label> 
-        <select id="ExampleThree_state" name="ExampleThree_state">
+        <select id="ExampleThree_state" name="ExampleThree_state" onchange="alert('Hidden value change to: ' + $('#ExampleThree_state').val());">
           <option value=""></option>
           <option value="176">Alabama</option>
           <option value="178">Alaska</option>
@@ -188,19 +188,19 @@
         </p>
         <pre>
           <code>
-            &lt;select id="ExampleThree_state" name="ExampleThree_state&gt;
-              &lt;option value=''&gt;&lt;/option&gt;
-              &lt;option value='1'&gt;Alabama&lt;/option&gt;
-              &lt;option value='2'&gt;Alaska&lt;/option&gt;
-              &lt;option value='3'&gt;Arizona&lt;/option&gt;
-              &lt;option value='4'&gt;Arkansas&lt;/option&gt;
-              &lt;option value='5'&gt;California&lt;/option&gt;
-              &lt;!-- Options truncated ... --&gt;
-            &lt;select&gt;
-          
-            &lt;script type="text/javascript"&gt;
-              $("#state_select").quickselect();
-            &lt;/script&gt;
+  &lt;select id="ExampleThree_state" name="ExampleThree_state" onchange="alert('Hidden value change to: ' + $('#ExampleThree_state').val());"&gt;
+    &lt;option value=''&gt;&lt;/option&gt;
+    &lt;option value='1'&gt;Alabama&lt;/option&gt;
+    &lt;option value='2'&gt;Alaska&lt;/option&gt;
+    &lt;option value='3'&gt;Arizona&lt;/option&gt;
+    &lt;option value='4'&gt;Arkansas&lt;/option&gt;
+    &lt;option value='5'&gt;California&lt;/option&gt;
+    &lt;!-- Options truncated ... --&gt;
+  &lt;select&gt;
+
+  &lt;script type="text/javascript"&gt;
+    $("#state_select").quickselect();
+  &lt;/script&gt;
           </code>
         </pre>
       </fieldset>
@@ -272,19 +272,19 @@
         </script>
         <pre>
           <code>
-            &lt;select id="ExampleFour_state"&gt;
-              &lt;option value=''  class="red"&gt;&lt;/option&gt;
-              &lt;option value='1' class="white"&gt;Alabama&lt;/option&gt;
-              &lt;option value='2' class="blue"&gt;Alaska&lt;/option&gt;
-              &lt;option value='3' class="red"&gt;Arizona&lt;/option&gt;
-              &lt;option value='4' class="white"&gt;Arkansas&lt;/option&gt;
-              &lt;option value='5' class="blue"&gt;California&lt;/option&gt;
-              &lt;!-- Options truncated ... --&gt;
-            &lt;select&gt;
-            
-            &lt;script type="text/javascript"&gt;
-              $('#ExampleFour_state').quickselect();
-            &lt;/script&gt;
+  &lt;select id="ExampleFour_state"&gt;
+    &lt;option value=''  class="red"&gt;&lt;/option&gt;
+    &lt;option value='1' class="white"&gt;Alabama&lt;/option&gt;
+    &lt;option value='2' class="blue"&gt;Alaska&lt;/option&gt;
+    &lt;option value='3' class="red"&gt;Arizona&lt;/option&gt;
+    &lt;option value='4' class="white"&gt;Arkansas&lt;/option&gt;
+    &lt;option value='5' class="blue"&gt;California&lt;/option&gt;
+    &lt;!-- Options truncated ... --&gt;
+  &lt;select&gt;
+  
+  &lt;script type="text/javascript"&gt;
+    $('#ExampleFour_state').quickselect();
+  &lt;/script&gt;
           </code>
         </pre>
         
