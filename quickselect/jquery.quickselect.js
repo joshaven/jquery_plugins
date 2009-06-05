@@ -157,6 +157,7 @@ function object(obj){
       };
       var selectItem = function(li, from_hide_now_function){
         li=$(li)
+        // I'm unsure why
         if(!li){
           li = document.createElement("li");
           li=$(li)
@@ -326,7 +327,9 @@ function object(obj){
             break;
           default:
             if(timeout){clearTimeout(timeout);}
+            console.log(options.delay);
             timeout = setTimeout(onChange, options.delay);
+            // timeout = setTimeout(onChange, 0);
             break;
         }
       }).focus(function(){
@@ -354,7 +357,8 @@ function object(obj){
     options = options || {};
     options.data          = (typeof(options.data) === "object" && options.data.constructor == Array) ? options.data : undefined;
     options.ajaxParams    = options.ajaxParams || {};
-    options.delay         = options.delay || 400;
+    // options.delay         = options.delay || 400;
+    if(!options.delay) {options.delay = (this.tagName == 'SELECT' ? 10 : 400)}
     options.minChars      = options.minChars || 1;
     options.cssFlavor     = options.cssFlavor || 'quickselect';
     options.inputClass    = options.inputClass || options.cssFlavor+"_input";
@@ -383,7 +387,6 @@ function object(obj){
 
       } else if(input.tagName == 'SELECT'){
         // Select input: transform into Text input, then make QuickSelect.
-        my_options.delay = my_options.delay || 10; // for selects, we know we're not doing ajax, so we might as well speed up
         options.exactMatch = true; // force exactMatch on selects
 
         // Record the html stuff from the select
