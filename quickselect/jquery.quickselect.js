@@ -2,6 +2,8 @@
 // Minified version created at http://jsutility.pjoneil.net/ by running Obfuscation with no options and then Compact.
 // Packed version created at http://jsutility.pjoneil.net/ by running Compress on the Minified version.
 
+/*global jQuery, $, $$ */
+
 function object(obj){
   var S = function(){};
   S.prototype = obj;
@@ -54,9 +56,9 @@ function object(obj){
           return(el.data('item') ? (el.data('item').label ? el.data('item').label : el.data('item')[0]) : '');
         }
       };
-      var getValues = function(item){
-        return item.values || (item.value ? [item.value] : (typeof(item)==='string' ? [item] : item)) || []; // hash:item.values || item.value; string:item; array:item[1..end]
-      };
+      // var getValues = function(item){
+      //   return item.values || (item.value ? [item.value] : (typeof(item)==='string' ? [item] : item)) || []; // hash:item.values || item.value; string:item; array:item[1..end]
+      // };
       var matchers = {
         quicksilver : function(q,data){
           q = q.toLowerCase();
@@ -127,7 +129,7 @@ function object(obj){
         lis.removeClass(options.selectedClass);
         $(lis[activeSelection]).addClass(options.selectedClass);
 
-        if(options.autoFill && this.last_keyCode != 8){ // autoFill value, if option is set and the last user key pressed wasn't backspace
+        if(options.autoFill && this.last_keyCode !== 8){ // autoFill value, if option is set and the last user key pressed wasn't backspace
           // 1. Fill in the value (keep the case the user has typed)
           $input_element.val(previous_value + $(lis[activeSelection]).text().substring(previous_value.length));
           // 2. SELECT the portion of the value not typed by the user (so the next character will erase if they continue typing)
@@ -181,7 +183,7 @@ function object(obj){
         } else {
           // No current selection - blank the fields if options.exactMatch and current value isn't valid.
           if(options.exactMatch){
-            if(!$input_element.val() == previous_value){
+            if(!$input_element.val() === previous_value){
               $input_element.val('');
               $(options.additional_fields).each(function(i,input){$(input).val('');});}
             }
@@ -218,11 +220,10 @@ function object(obj){
           li.data('item', item);
           // results_list.append(li);
 
-          // li.text(options.formatItem ? options.formatItem(item, i, total_count) : getLabel(item));
-          li.text(options.resultFormat ? options.resultFormat(li.data('item'), i, total_count) : labelFromElData(li));
+          li.text(options.formatItem ? options.formatItem(li.data('item'), i, total_count) : labelFromElData(li));
 
-          // Set preserved attributes
-          for(var j in item.attributes){ $(li).attr(j, item.attributes[j]); }
+          // Set preserved attributes  // the if(true) block is per recommendation of jslint.com
+          for(var j in item.attributes){ if(true) {$(li).attr(j, item.attributes[j]);} }
           
           // insert list item & set click event
           $(ul).append(li);
@@ -231,6 +232,7 @@ function object(obj){
 
         // Lastly, remove the loading class.
         $input_element.removeClass(options.loadingClass);
+        return true;
       };
       var repopulate = function(q,callback){
         finders[!options.data ? 'ajax' : 'store'](q,function(data){
@@ -258,14 +260,14 @@ function object(obj){
         }).show();}
         results_list.show();
         // Option autoSelectFirst, and Option selectSingleMatch (activate the first item if only item)
-        if(options.autoSelectFirst || (options.selectSingleMatch && $lis.length == 1)){moveSelect($lis.get(0));}
+        if(options.autoSelectFirst || (options.selectSingleMatch && $lis.length === 1)){moveSelect($lis.get(0));}
       };
       var onChange = function(){
         // ignore if non-consequence key is pressed (such as shift, ctrl, alt, escape, caps, pg up/down, home, end, arrows)
         if(last_keyCode >= 9 && last_keyCode <= 45){return;}
         // compare with previous value / store new previous value
         var q = $input_element.val();
-        if(q == previous_value){return;}
+        if(q === previous_value){return;}
         previous_value = q;
         // if enough characters have been typed, load/populate the list with whatever matches and show the results list.
         if(q.length >= options.minChars){
@@ -285,7 +287,7 @@ function object(obj){
     // Set up the interface events
       // Mark that actual item was clicked if clicked item was NOT a DIV, so the focus doesn't leave the items.
       
-      results_list.mousedown(function(e){ if(e.srcElement){clickedLI=e.srcElement.tagName!='DIV';} });
+      results_list.mousedown(function(e){ if(e.srcElement){clickedLI=e.srcElement.tagName!=='DIV';} });
 
       $input_element.keydown(function(e){
         last_keyCode = e.keyCode;
@@ -312,7 +314,7 @@ function object(obj){
             break;
           case 27: // Esc - deselect any active selection, hide the drop-down but stay in the field
             // Reset the active selection IF must be exactMatch and is not an exact match.
-            if(activeSelection > -1 && options.exactMatch && $input_element.val()!=$('li', results_list).get(activeSelection).text()){activeSelection = -1;}
+            if(activeSelection > -1 && options.exactMatch && $input_element.val()!==$('li', results_list).get(activeSelection).text()){activeSelection = -1;}
             $('li', results_list).removeClass(options.selectedClass);
              hideResultsNow();
             e.preventDefault();
@@ -334,7 +336,7 @@ function object(obj){
           timeout = setTimeout(function(){
             hideResultsNow();
             // Select null element, IF options.exactMatch and there is no selection.
-            if(options.exactMatch && $input_element.val() != $input_element.lastSelected){selectItem(null,true);}
+            if(options.exactMatch && $input_element.val() !== $input_element.lastSelected){selectItem(null,true);}
           }, 200);
         }else{
           e.srcElement.focus();
@@ -345,7 +347,7 @@ function object(obj){
   $.fn.quickselect = function(options, data){
     // Prepare options and set defaults.
     options = options || {};
-    options.data          = (typeof(options.data) === "object" && options.data.constructor == Array) ? options.data : undefined;
+    options.data          = (typeof(options.data) === "object" && options.data.constructor === Array) ? options.data : undefined;
     options.ajaxParams    = options.ajaxParams || {};
     if(!options.delay) {options.delay = (options.ajax === undefined ? 10 : 400);}
     options.minChars      = options.minChars || 1;
@@ -355,14 +357,14 @@ function object(obj){
     options.resultsClass  = options.resultsClass || options.cssFlavor+"_results";
     options.selectedClass = options.selectedClass || options.cssFlavor+"_selected";
     // matchMethod: (quicksilver | contains | startsWith). Defaults to 'quicksilver' if quicksilver.js is loaded / 'contains' otherwise.
-    options.matchMethod   = options.matchMethod || ((typeof ''.score === 'function') && 'l'.score('l') == 1 ? 'quicksilver' : 'contains');
+    options.matchMethod   = options.matchMethod || ((typeof ''.score === 'function') && 'l'.score('l') === 1 ? 'quicksilver' : 'contains');
     if(options.matchCase === undefined){options.matchCase = false;}
     if(options.exactMatch === undefined){options.exactMatch = false;}
     if(options.autoSelectFirst === undefined){options.autoSelectFirst = true;}
     if(options.selectSingleMatch === undefined){options.selectSingleMatch = true;}
     if(options.additional_fields === undefined){options.additional_fields = $('nothing');}
     options.maxVisibleItems = options.maxVisibleItems || -1;
-    if(options.autoFill === undefined || options.matchMethod != 'startsWith'){options.autoFill = false;} // if you're not using the startsWith match, it really doesn't help to autoFill.
+    if(options.autoFill === undefined || options.matchMethod !== 'startsWith'){options.autoFill = false;} // if you're not using the startsWith match, it really doesn't help to autoFill.
     options.width         = parseInt(options.width, 10) || 0;
     
     // Make quickselects.
@@ -370,11 +372,11 @@ function object(obj){
       var input = this,
           my_options = object(options);
 
-      if(input.tagName == 'INPUT'){
+      if(input.tagName === 'INPUT'){
         // Text input: ready for QuickSelect-ing!
         QuickSelect(input, my_options);
 
-      } else if(input.tagName == 'SELECT'){
+      } else if(input.tagName === 'SELECT'){
         // Select input: transform into Text input, then make QuickSelect.
         options.exactMatch = true; // force exactMatch on selects
 
@@ -382,7 +384,7 @@ function object(obj){
         var my_attributes = {};
         // backup of all element attributes except multiple and size
         $(input.attributes).each(function(i){
-          if(!/^(multiple|size)$/.test(this.nodeName)){my_attributes[this.nodeName]=this.nodeValue;}
+          if(!(/^(multiple|size)$/.test(this.nodeName))) {my_attributes[this.nodeName]=this.nodeValue;}
         });
 
         // Collect the data from the select/options.
@@ -392,7 +394,7 @@ function object(obj){
           var attrs = {};
           // backup of all elements attributess except: disabled, label, selected, value
           $(option.attributes).each(function(i){ 
-            if(!/^(disabled|label|selected|value)$/.test(this.nodeName)){attrs[this.nodeName]=this.nodeValue;}
+            if(!(/^(disabled|label|selected|value)$/.test(this.nodeName))){attrs[this.nodeName]=this.nodeValue;}
           }); 
           
           my_options.data.push({label : $(option).text(), values : [option.value, option.value], attributes:attrs});
@@ -404,7 +406,8 @@ function object(obj){
         // Set pre-selected value as default value
         
         // Set the preserved attributes & Append id with _quickselect to make unique
-        for(var attribute in my_attributes){ text_input.attr(attribute, my_attributes[attribute]); }
+        // the if(true) block is per recommendation of jslint.com
+        for(var attribute in my_attributes){ if(true){text_input.attr(attribute, my_attributes[attribute]);} }
         text_input.attr('id', text_input.attr('id') + '_quickselect');
         
         

@@ -92,7 +92,7 @@
             exactMatch:true,
             width:'200px',
             additional_fields:[$('#example2_city'), $('#example2_state')],
-            resultFormat:function(data){return(data[0]+", "+data[1]+" "+data[2])}
+            formatItem:function(d){return(d[0]+", "+d[1]+" "+d[2])}
           });
         </script>
         <pre>
@@ -109,7 +109,7 @@
       exactMatch:true,
       width:'200px',
       additional_fields:[$('#example2_city'), $('#example2_state')],
-      resultFormat:function(data){return data[0]+", "+data[1]+" "+data[2]}
+      formatItem:function(data){return data[0]+", "+data[1]+" "+data[2]}
     });
   &lt;/script&gt;
           </code>
