@@ -48,7 +48,7 @@ Two modes for data: Data, and Ajax.
 * exactMatch: use this if you absolutely need the typed value to end up matching one of the list items in the end. If something is typed but no match is found, the text field and all fields specified in additional_fields instantly get blank values.
 * autoFill: true/false - use this if you want the text input to automatically try to finish what you're typing as you type, based on the top match. This only works with the 'startsWith' match method.
 * maxVisibleItems: limit the number of items shown in the list at any one time.
-* resultFormat: optional, assign a function that will transform the item list labels. The function is called for each item with the arguments: item, index, total_count.
+* formatItem: optional, assign a function that will transform the item list labels. The function is called for each item with the arguments: item, index, total_count.
 * cssFlavor: choose one of the built-in flavors. Default is named 'quickselect'. This causes the next four css classes to be set based on this flavor name, unless you set them explicitly.
 * inputClass: css class for styling the text input box.
 * loadingClass: css class for styling the text input while loading ajax.
