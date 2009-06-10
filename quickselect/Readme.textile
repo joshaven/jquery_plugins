@@ -1,3 +1,7 @@
+h1. Version 1.0.5 found herein is under development.
+This plugin is not production ready.  There are known IE issues.  I am committed to stabilizing this plugin in a reasonable timeframe, please watch for updates or feel free to contact me with question: yourtech(at)gmail(dot)com
+
+
 h1. jQuery: QuickSelect
 
 The QuickSelect plugin allows you to create a text input with a list of specified options, and as you type, those options show up in a list below the input box. You can choose to have it auto-fill the top result into the input box as you type, or select an option using the arrow keys.
