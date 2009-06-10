@@ -368,7 +368,7 @@ function object(obj){
     options.width         = parseInt(options.width, 10) || 0;
     
     // Make quickselects.
-    this.each(function(){
+    return this.each(function(){
       var input = this,
           my_options = object(options);
 
@@ -428,5 +428,6 @@ function object(obj){
         text_input.quickselect(my_options); // make the text input into a QuickSelect.
       }
     });
+    
   };
 })(jQuery);
