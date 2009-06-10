@@ -8,6 +8,6 @@ $(document).ready(function(){
   module("quickselect");
   
   test("should convert a select element into a text input box", function() {
-    $('one_to_ten')
+    ok($('#one_to_ten').quickselect(), "quickselect failed to return true" );
   });
 });
