@@ -3,10 +3,10 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <title>jQuery : QuickSelect</title>
-  <script type="text/javascript" src="jquery-1.3.2.min.js"></script>
+  <script type="text/javascript" src="extras/jquery-1.3.2.min.js"></script>
   <script type='text/javascript' src='quicksilver.js'></script>
-  <script type='text/javascript' src='jquery.quickselect.js'></script>
-<script type='text/javascript' src='firebug-lite-compressed.js'></script>
+  <script type='text/javascript' src='jquery.quickselect.1.0.5.js'></script>
+<!-- <script type='text/javascript' src='extras/firebug-lite-compressed.js'></script> -->
   <link rel="stylesheet" type="text/css" href="jquery.quickselect.css"></link>
   
   <style type="text/css">
@@ -69,7 +69,7 @@
       <fieldset id="example2_fieldset">
         <legend>Example 2: Locate Zip, fill in City &amp; State from data via URL</legend>
         <p>
-          QuickSelect input box with data from url formatted as JSON ('zips_starting_with_49.json' in this case).<br />
+          QuickSelect input box with data from url formatted as JSON ('sample_data/zips_starting_with_49.json' in this case).<br />
           Data from the first field will dictate the other fields data based upon the json provided.<br />
           In an actual implementation, the data returned should correspond to what you've typed<br />
           (the request adds a query-string "?q=&lt;what-you-typed&gt;").<br />
@@ -85,7 +85,7 @@
         <input id="example2_state" name="example2_state" type="text" />
         <script type="text/javascript">
           $('#example2_zip').quickselect({
-            ajax:'zips_starting_with_49.json',
+            ajax:'sample_data/zips_starting_with_49.json',
             maxVisibleItems:10,
             autoSelectFirst:false,
             matchMethod:'startsWith',
@@ -103,7 +103,7 @@
 
   &lt;script type="text/javascript"&gt;
     $('#example2_zip').quickselect({
-      ajax:'zips_starting_with_49.json',
+      ajax:'sample_data/zips_starting_with_49.json',
       maxVisibleItems:10,
       autoSelectFirst:false,
       exactMatch:true,
@@ -177,9 +177,9 @@
           <option value="291">Wisconsin</option>
           <option value="293">Wyoming</option>
         </select>
-        <script type="text/javascript">
+        <!-- <script type="text/javascript">
           $("#ExampleThree_state").quickselect();
-        </script>
+        </script> -->
         <p>
           Note that for a converted select group, some option defaults change:<br />
           {exactMatch : true, autoSelectFirst : true}<br />
