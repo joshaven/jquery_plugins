@@ -384,7 +384,7 @@ function object(obj){
         var my_attributes = {};
         // backup of all element attributes except multiple and size
         $(input.attributes).each(function(i){
-          if(!(/^(multiple|size)$/.test(this.nodeName))) {my_attributes[this.nodeName]=this.nodeValue;}
+          if(!(/^(multiple|size|type)$/.test(this.nodeName))) {my_attributes[this.nodeName]=this.nodeValue;}
         });
 
         // Collect the data from the select/options.
@@ -394,7 +394,7 @@ function object(obj){
           var attrs = {};
           // backup of all elements attributess except: disabled, label, selected, value
           $(option.attributes).each(function(i){ 
-            if(!(/^(disabled|label|selected|value)$/.test(this.nodeName))){attrs[this.nodeName]=this.nodeValue;}
+            if(!(/^(disabled|label|selected|value|type)$/.test(this.nodeName))){attrs[this.nodeName]=this.nodeValue;}
           }); 
           
           my_options.data.push({label : $(option).text(), values : [option.value, option.value], attributes:attrs});
@@ -407,7 +407,10 @@ function object(obj){
         
         // Set the preserved attributes & Append id with _quickselect to make unique
         // the if(true) block is per recommendation of jslint.com
+// Error in IE is comming from HERE!!!  
+        // alert(my_attributes);
         for(var attribute in my_attributes){ if(true){text_input.attr(attribute, my_attributes[attribute]);} }
+// End of error in IE
         text_input.attr('id', text_input.attr('id') + '_quickselect');
         
         
